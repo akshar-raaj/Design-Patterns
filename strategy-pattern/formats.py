@@ -1,7 +1,7 @@
 import os
 
 from abc import ABCMeta, abstractmethod
-from strategies import TesseractStrategy
+from strategies import TesseractStrategy, CloudVisionStrategy, AWSTextractStrategy
 
 
 class BaseDocument(object, metaclass=ABCMeta):
@@ -31,6 +31,10 @@ class PDFDocument(BaseDocument):
 
     FORMAT = "pdf"
 
+    def __init__(self, path, ocr_strategy=None):
+        ocr_strategy = ocr_strategy or CloudVisionStrategy()
+        super().__init__(path, ocr_strategy)
+
     def num_pages(self):
         # Find number of pages in the PDF using some PDF library like pypdf
         pass
@@ -40,6 +44,10 @@ class JPGDocument(BaseDocument):
 
     FORMAT = "jpg"
 
+    def __init__(self, path, ocr_strategy=None):
+        ocr_strategy = ocr_strategy or CloudVisionStrategy()
+        super().__init__(path, ocr_strategy)
+
     def num_pages(self):
         # JPG images have 1 page
         return 1
@@ -48,6 +56,10 @@ class JPGDocument(BaseDocument):
 class PNGDocument(BaseDocument):
 
     FORMAT = "png"
+
+    def __init__(self, path, ocr_strategy=None):
+        ocr_strategy = ocr_strategy or AWSTextractStrategy()
+        super().__init__(path, ocr_strategy)
 
     def num_pages(self):
         # PNG images have 1 page
