@@ -1,11 +1,13 @@
 import os
-from strategies import ExtractTextSimple, ExtractTextPDF, ExtractTextImage
+
+from abc import ABCMeta, abstractmethod
+from strategies import TesseractStrategy
 
 
-class BaseFile(object):
-    def __init__(self, path, extractor):
+class BaseDocument(object, metaclass=ABCMeta):
+    def __init__(self, path, ocr_strategy=None):
         self.path = path
-        self.extractor = extractor
+        self.ocr_strategy = ocr_strategy or TesseractStrategy()
 
     def size(self):
         # Find file size using os.stat
@@ -16,45 +18,37 @@ class BaseFile(object):
         # Round to 2 decimal
         return round(size, 2)
 
-    def read_content(self):
-        return self.extractor.read_content()
+    @abstractmethod
+    def num_pages(self):
+        pass
+
+    def perform_ocr(self):
+        # Perform OCR using the set strategy.
+        self.ocr_strategy.perform_ocr()
 
 
-class TextFile(BaseFile):
-
-    def __init__(self, path):
-        super().__init__(path, ExtractTextSimple(path))
-
-    FORMAT = "txt"
-
-
-class PDFFile(BaseFile):
-
-    def __init__(self, path):
-        super().__init__(path, ExtractTextPDF(path))
+class PDFDocument(BaseDocument):
 
     FORMAT = "pdf"
 
-
-class DummyPDFFile(BaseFile):
-
-    def __init__(self, path):
-        super().__init__(path, ExtractTextPDF(path))
-
-    FORMAT = "dummy-pdf"
+    def num_pages(self):
+        # Find number of pages in the PDF using some PDF library like pypdf
+        pass
 
 
-class JPGFile(BaseFile):
-
-    def __init__(self, path):
-        super().__init__(path, ExtractTextImage(path))
+class JPGDocument(BaseDocument):
 
     FORMAT = "jpg"
 
+    def num_pages(self):
+        # JPG images have 1 page
+        return 1
 
-class PNGFile(BaseFile):
 
-    def __init__(self, path):
-        super().__init__(path, ExtractTextImage(path))
+class PNGDocument(BaseDocument):
 
     FORMAT = "png"
+
+    def num_pages(self):
+        # PNG images have 1 page
+        return 1

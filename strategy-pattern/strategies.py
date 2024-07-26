@@ -1,47 +1,32 @@
-import pypdf
-
 from abc import ABCMeta, abstractmethod
 
-from PIL import Image
-from pytesseract import pytesseract
 
+class OCRStrategy(object, metaclass=ABCMeta):
 
-class ExtractText(object, metaclass=ABCMeta):
-
-    def __init__(self, path):
-        self.path = path
+    def __init__(self):
+        pass
 
     @abstractmethod
-    def read_content(self):
+    def perform_ocr(self):
         pass
 
 
-class ExtractTextSimple(ExtractText):
+class TesseractStrategy(OCRStrategy):
 
-    def read_content(self):
-        with open(self.path, "r") as f:
-            return f.read()
-
-
-class ExtractTextPDF(ExtractText):
-
-    def read_content(self):
-        text = ''
-        with open(self.path, "rb") as f:
-            reader = pypdf.PdfReader(f)
-            first_page = reader.pages[0]
-            text = first_page.extract_text()
-        return text
+    def perform_ocr(self):
+        print("Performing OCR using Tesseract")
+        pass
 
 
-class ExtractTextImage(ExtractText):
+class AWSTextractStrategy(OCRStrategy):
 
-    def read_content(self):
-        path_to_tesseract = "/usr/local/bin/tesseract"
+    def perform_ocr(self):
+        print("Performing OCR using Textract")
+        pass
 
-        img = Image.open(self.path)
 
-        pytesseract.tesseract_cmd = path_to_tesseract 
+class CloudVisionStrategy(OCRStrategy):
 
-        text = pytesseract.image_to_string(img)
-        return text
+    def perform_ocr(self):
+        print("Performing OCR using Cloud Vision")
+        pass
