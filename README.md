@@ -9,3 +9,8 @@ The code samples have been tested on Python 3.10. Each class is well tested and 
 The patterns covered in this repository are:
 
 - [x] Strategy Pattern
+
+We intend to add the following other patterns.
+
+- [ ] Observer Pattern
+- [ ] Decorator Pattern
