@@ -1,10 +1,21 @@
-class ConfigureCustomer(object):
+from abc import ABCMeta, abstractmethod
+
+
+class Observer(object, metaclass=ABCMeta):
+
+    @abstractmethod
+    def update(self, customer_id):
+        pass
+
+
+class ConfigureCustomer(Observer):
     """
     Create associated entities needed for proper functioning of a customer.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, customer_service):
+        self.customer_service = customer_service
+        self.customer_service.add_observer(self)
 
     def update(self, customer_id):
         self.configure_customer(customer_id)
@@ -14,10 +25,11 @@ class ConfigureCustomer(object):
         print(f"Configuring customer {customer_id}")
 
 
-class SendWelcomeEmail(object):
+class SendWelcomeEmail(Observer):
 
-    def __init__(self):
-        pass
+    def __init__(self, customer_service):
+        self.customer_service = customer_service
+        self.customer_service.add_observer(self)
 
     def update(self, customer_id):
         self.send_welcome_email(customer_id)
@@ -27,10 +39,11 @@ class SendWelcomeEmail(object):
         print(f"Sending welcome email to customer {customer_id}")
 
 
-class NotifyOperations(object):
+class NotifyOperations(Observer):
 
-    def __init__(self):
-        pass
+    def __init__(self, customer_service):
+        self.customer_service = customer_service
+        self.customer_service.add_observer(self)
 
     def update(self, customer_id):
         self.notify_operations(customer_id)
@@ -40,10 +53,11 @@ class NotifyOperations(object):
         print(f"Notifying operations for customer {customer_id}")
 
 
-class NotifySupport(object):
+class NotifySupport(Observer):
 
-    def __init__(self):
-        pass
+    def __init__(self, customer_service):
+        self.customer_service = customer_service
+        self.customer_service.add_observer(self)
 
     def update(self, customer_id):
         self.notify_support(customer_id)
