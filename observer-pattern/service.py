@@ -1,14 +1,21 @@
+from observers import Observer
+
 class CustomerService(object):
 
     def __init__(self, data):
         self.data = data
-        self.observers = []
+        self.observers: list[Observer] = []
 
     def add_observer(self, observer):
-        self.observers.append(observer)
+        if hasattr(observer, 'update'):
+            self.observers.append(observer)
+        else:
+            # Log it as an exception
+            pass
 
     def delete_observer(self, observer):
-        self.observers.remove(observer)
+        if observer in self.observers:
+            self.observers.remove(observer)
 
     def notify_observers(self, customer_id):
         for observer in self.observers:
