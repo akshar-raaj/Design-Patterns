@@ -1,13 +1,9 @@
-from fruits import Fruit, Watermelon, Peach, Pear
+from fruits import Fruit
+from factories import FruitFactory
 
 
 def throw_fruit(name: str) -> Fruit:
-    if name == "Watermelon":
-        fruit = Watermelon()
-    elif name == "Peach":
-        fruit = Peach()
-    elif name == "Pear":
-        fruit = Pear()
+    fruit = FruitFactory.create_fruit(name)
     fruit.ripen()
     fruit.clean()
     return fruit
