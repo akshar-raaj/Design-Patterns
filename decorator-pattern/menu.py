@@ -1,6 +1,11 @@
-class Pizza(object):
+from abc import ABCMeta, abstractmethod
 
-    pass
+
+class Pizza(object, metaclass=ABCMeta):
+
+    @abstractmethod
+    def get_price(self):
+        pass
 
 
 class Margherita(Pizza):

@@ -3,7 +3,7 @@ from menu import Pizza
 
 class Topping(Pizza):
 
-    def __init__(self, pizza):
+    def __init__(self, pizza: Pizza):
         self.pizza = pizza
 
 
