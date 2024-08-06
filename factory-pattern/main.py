@@ -1,9 +1,10 @@
 from fruits import Fruit
-from factories import FruitFactory
+from factories import WatermelonFactory, PeachFactory
 
 
-def throw_fruit(name: str) -> Fruit:
-    fruit = FruitFactory.create_fruit(name)
-    fruit.ripen()
-    fruit.clean()
-    return fruit
+def throw_fruit() -> Fruit:
+    watermelon_factory = WatermelonFactory()
+    watermelon_factory.throw_fruit()
+
+    peach_factory = PeachFactory()
+    peach_factory.throw_fruit()
