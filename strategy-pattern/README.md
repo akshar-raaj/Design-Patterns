@@ -13,3 +13,8 @@ The design goals to be achieved are:
 Strategy pattern can aid in such cases to achieve these design goals.
 
 The context classes are defined in `formats.py` and strategies are defined in `strategies.py`.
+
+The UML Class diagram for our example is:
+
+![Strategy Pattern_ Document Processing with OCR strategies](https://github.com/user-attachments/assets/ad2fbfcf-e9aa-4ff0-89b5-61289b2bb0e2)
+
